@@ -67,12 +67,9 @@ var ncmbController = {
         .then(function(user){
             // 登録完了後ログイン
             localStorage.setItem("userName", uuid);
-            alert("ユーザー登録に成功しました！");
+            self.loginWithUUID();
         })
-        .catch(function(err){
-            // userName が被った場合はエラーが返る
-            alert("ユーザー登録に失敗しました");
-        });
+
   },
 
   uuid: function() {
@@ -132,6 +129,21 @@ var ncmbController = {
                 self.loginWithUUID();       // 再ログイン
             });
     }
+  },
+  // currentUserプロパティを更新
+  refreshCurrentUser: function() {
+    var self = this;
+    if(!self.currentUser) return;
+
+    // オブジェクトIDを用いてユーザーを検索（fetchById）
+    self.ncmb.User.fetchById(self.currentUser.get("objectId"))
+             .then(function(user){
+                 self.currentUser = user;
+              })
+             .catch(function(err){
+                console.log(err);
+                self.currentUser = null;
+              });
   },
 
   init: function(screenSize) {
