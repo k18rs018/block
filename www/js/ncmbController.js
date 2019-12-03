@@ -90,6 +90,50 @@ var ncmbController = {
     return uuid;
   },
 
+  // UUIDが存在すればログイン、しなければ新規作成
+  loginWithUUID: function() {
+    var self = this;
+    var userName = localStorage.getItem("userName");
+
+    if(!userName){
+        // ユーザーを作成したことがない
+        self.createUser();
+    } else if(!self.currentUser) {
+        // ログアウト状態：userNameとパスワードでログイン
+        // 今回はパスワード（第2引数）もuserNameを使用
+        self.ncmb.User.login(userName, userName)
+            .then(function(user){
+                // ログイン後：ユーザーデータの更新
+                self.currentUser = user;
+                self.refreshCurrentUser();
+            })
+            .catch(function(err){
+                // 失敗した場合：ユーザー作成
+                console.log(err);
+                self.createUser();
+            });
+    } else {
+        // ログアウトしていない（前のログインデータが残っている）
+        self.currentUser = self.ncmb.User.getCurrentUser();
+
+        // userオブジェクトを使用してログイン
+        self.ncmb.User.login(self.currentUser)
+            .then(function(user){
+                // ログイン後：ユーザーデータの更新
+                self.currentUser = user;
+                self.refreshCurrentUser();
+            })
+            .catch(function(err){
+                // セッション切れの場合はログアウトして再ログイン
+                console.log(err);
+
+                self.ncmb.User.logout();  // ログアウト
+                self.currentUser = null;
+                self.loginWithUUID();       // 再ログイン
+            });
+    }
+  },
+
   init: function(screenSize) {
     var self = this;
     self.ncmb = new NCMB(self.APPLICATION_KEY,self.CLIENT_KEY);
