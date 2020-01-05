@@ -42,15 +42,15 @@ var BB = {
     // Create blocks map
     setMap: function() {
         var blockMap = [
-            [null,      null,       null,       null,       null,       'blue',     null,       null,       null,       null],
-            [null,      null,       null,       null,       'red',      'red',      'blue',     null,       null,       null],
-            [null,      null,       null,       'red',      'red',      null,       null,       'blue',     null,       null],
-            [null,      null,       'red',      'red',      null,       null,       null,       null,       'blue',     null],    
-            [null,      'red',      'red',      null,       null,       'gold',     null,       null,       'silver',   'silver'],    
-            [null,      null,       'red',      'red',       null,       null,       null,       'silver',   'silver',   null],    
-            [null,      null,       null,       'red',      'red',       null,       'silver',   'silver',   null,       null],    
-            [null,      null,       null,       null,       'silver',   'silver',   'silver',   null,       null,       null],
-            [null,      null,       null,       null,       null,       'silver',   null,       null,       null,       null]
+            [null,      'red',       'red',       'red',       'red',       'red',     'red',       'red',       'red',       'red'],
+            [null,      'red',       null,       null,       null,      'blue',      null,     null,       null,       'silver'],
+            [null,      'red',       null,       null,      'blue',      null,       'blue',       null,     null,       'silver'],
+            [null,      'red',       null,      'blue',      null,       null,       null,       'blue',       null,     'silver'],    
+            [null,      'red',      'blue',      null,       null,       'gold',     null,       null,       'blue',   'silver'],    
+            [null,      'red',       null,      'blue',       null,       null,       null,       'blue',   null,   'silver'],    
+            [null,      'red',       null,       null,      'blue',       null,       'blue',   null,   null,       'silver'],    
+            [null,      'red',       null,       null,       null,   'blue',   null,   null,       null,       'silver'],
+            [null,      'silver',       'silver',       'silver',       'silver',       'silver',    'silver',       'silver',       'silver',       'silver']
         ];
         
         for(j = 0; j < blockMap.length; j++) {
