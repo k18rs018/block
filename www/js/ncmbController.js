@@ -208,7 +208,8 @@ var ncmbController = {
       .fetchAll()
       .then(function(results){
 
-         // 取得した内容をコンソールに表示
+         //ランキング表のHTML生成
+         var tableSource = "";
          if(results.length > 0){
             for(i=0; i<results.length; i++){
                var score = results[i],
@@ -221,12 +222,19 @@ var ncmbController = {
                      displayName = score.user.displayName;
                  }
 
-                 console.log(rank + ": " + displayName + "(" + value + ")");
+                 tableSource += "<li class=\"list__item list__item--inset\">"
+                    + rank + ":"
+                    + displayName
+                    + " (" + value + ")</li>";
              }
          } else {
-            console.log("スコアデータがありません");
+             tableSource += "<li class=\"list__item list__item--inset\">ランキングはありません</li>";
          }
 
+         $("#rankingTable").html(tableSource);
+
+         //ランキング画面を表示する
+         $("#ranking").show();
      })
      .catch(function(err){
        console.log(err);
@@ -237,5 +245,15 @@ var ncmbController = {
     var self = this;
     self.ncmb = new NCMB(self.APPLICATION_KEY,self.CLIENT_KEY);
     self.screenSize = screenSize;
+
+    //閉じるボタンの動作を規定
+    $("body").on("click", "#closeRanking", function(){
+      self.closeRanking();
+    });
+  },
+
+  //ランキング画面を閉じる
+  closeRanking:function() {
+     $("#ranking").hide();
   }
 }
