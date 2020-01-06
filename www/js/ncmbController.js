@@ -201,29 +201,36 @@ var ncmbController = {
     //スコア情報を取得するため、クラスを作成
     var Score = self.ncmb.DataStore("ScoreClass");
 
-    //スコアを降順に10件取得
+    //スコアを降順に10件取得、ユーザー情報を含める形で
     Score.order("score", true)
-        .limit(10)
-        .fetchAll()
-        .then(function(results){
+      .include("user")
+      .limit(10)
+      .fetchAll()
+      .then(function(results){
 
-            // 取得した内容をコンソールに表示
-            if(results.length > 0){
-                for(i=0; i<results.length; i++){
-                    var score = results[i],
-                        rank = i + 1,
-                        value = parseInt(score.score);
+         // 取得した内容をコンソールに表示
+         if(results.length > 0){
+            for(i=0; i<results.length; i++){
+               var score = results[i],
+                 rank = i + 1,
+                 value = parseInt(score.score),
+                 displayName = "NO NAME";
 
-                    console.log(rank + ": " + value);
-                }
-            } else {
-                console.log("スコアデータがありません");
-            }
+                 // ユーザーが正しく取得できていれば、ユーザー名を変数に格納
+                 if(score.user !== undefined){
+                     displayName = score.user.displayName;
+                 }
 
-        })
-        .catch(function(err){
-          console.log(err);
-        });
+                 console.log(rank + ": " + displayName + "(" + value + ")");
+             }
+         } else {
+            console.log("スコアデータがありません");
+         }
+
+     })
+     .catch(function(err){
+       console.log(err);
+     });
   },
 
   init: function(screenSize) {
