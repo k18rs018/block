@@ -223,8 +223,8 @@ var BB = {
         }, 1000, resetLabel);
 
         // ここから追加（ランキングボタン）
-        var rankingLabel = new PIXI.Text("RANKING", {font: "24px/1.2 vt", fill: "red"});
-        rankingLabel.position.x = 80;
+        var rankingLabel = new PIXI.Text("RANKING", {font: "30px/1.2 vt", fill: "lightblue"});
+        rankingLabel.position.x = 90;
         rankingLabel.position.y = BB.renderer.height - 52;
         BB.stage.addChild(rankingLabel);
         rankingLabel.buttonMode = true;
